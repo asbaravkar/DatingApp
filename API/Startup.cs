@@ -55,6 +55,7 @@ namespace API
 
             app.UseRouting();
 
+            // Use authentication and authorization after cors before routing
             app.UseAuthentication();
 
             app.UseAuthorization();
