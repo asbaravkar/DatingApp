@@ -1,10 +1,15 @@
+using API.Data;
 using API.Extensions;
 using API.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace API
 {
@@ -52,6 +57,20 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+
+            using var scope = app.ApplicationServices.CreateScope();
+            var services = scope.ServiceProvider;
+            try
+            {
+                var context = services.GetRequiredService<DataContext>();
+                context.Database.MigrateAsync();
+                Seed.SeedUsers(context);
+            }
+            catch(Exception ex)
+            {
+                var logger = services.GetService<ILogger>();
+                logger.LogError(ex, "An error occured during migration");
+            }
         }
     }
 }
