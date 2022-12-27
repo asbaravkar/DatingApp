@@ -28,6 +28,7 @@ export class NavComponent implements OnInit {
       userDto => {
         console.log(userDto);
         this.router.navigateByUrl('/members')
+        // reset userparams in memberservice to not load from cache [L-176]
       }
     );
   }
