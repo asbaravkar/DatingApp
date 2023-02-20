@@ -2,6 +2,7 @@ using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Threading.Tasks;
 
 namespace API
 {
@@ -58,7 +58,11 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PresenceHub>("hubs/presence");
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
+
+            //app.MapHub<PresenceHub>("hubs/presence");
 
             using var scope = app.ApplicationServices.CreateScope();
             var services = scope.ServiceProvider;
@@ -68,6 +72,7 @@ namespace API
                 context.Database.MigrateAsync();
                 var userManager = services.GetRequiredService<UserManager<AppUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+                context.Database.ExecuteSqlRaw("DELETE FROM [Connections]");
                 Seed.SeedUsers(userManager, roleManager);
             }
             catch(Exception ex)

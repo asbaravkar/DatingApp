@@ -2,6 +2,7 @@
 using API.Helpers;
 using API.Interfaces;
 using API.Services;
+using API.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +23,10 @@ namespace API.Extensions
             {
                 options.AddPolicy("ClientPolicy", builder =>
                 {
-                    builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                    builder.AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials()
+                           .WithOrigins("https://localhost:4200");
                 });
             });
             services.AddScoped<ITokenService, TokenService>();
@@ -33,6 +37,8 @@ namespace API.Extensions
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+            services.AddSignalR();
+            services.AddSingleton<PresenceTracker>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
