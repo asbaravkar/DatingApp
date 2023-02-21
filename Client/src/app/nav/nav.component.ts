@@ -26,8 +26,8 @@ export class NavComponent implements OnInit {
   login(){
     this.accountService.login(this.model).subscribe(
       userDto => {
-        console.log(userDto);
-        this.router.navigateByUrl('/members')
+        this.router.navigateByUrl('/members');
+        this.model = {} as any;
         // reset userparams in memberservice to not load from cache [L-176]
       }
     );

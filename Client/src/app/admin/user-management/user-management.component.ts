@@ -37,7 +37,7 @@ export class UserManagementComponent implements OnInit {
     const config = {
       class: 'modal-dialog-centered',
       initialState: {
-        username: user.userName,
+        username: user.username,
         availableRoles: this.availableRoles,
         selectedRoles: [...user.roles]
       }
@@ -47,7 +47,7 @@ export class UserManagementComponent implements OnInit {
       () => {
         const selectedRoles = this.bsModalRef.content?.selectedRoles;
         if (!this.arrayEqual(selectedRoles!, this.availableRoles)) {
-          this.adminService.updateRoles(user.userName, selectedRoles!).subscribe(
+          this.adminService.updateRoles(user.username, selectedRoles!).subscribe(
             roles => {
               user.roles = roles;
             }

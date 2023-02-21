@@ -29,12 +29,10 @@ namespace API.Extensions
                            .WithOrigins("https://localhost:4200");
                 });
             });
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<LogUserActivity>();
-            services.AddScoped<ILikeRepository, LikeRepository>();
-            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.AddSignalR();
