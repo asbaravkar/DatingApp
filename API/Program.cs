@@ -21,6 +21,10 @@ else
 {
     // Use connection string provided at runtime by Fly.io.
     var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    Console.WriteLine(connUrl);
+    var logFactory = new LoggerFactory();
+    var logger = logFactory.CreateLogger<Program>();
+    logger.LogInformation($"Connection String: {connUrl}");
 
     // Parse connection URL to connection string for Npgsql
     connUrl = connUrl.Replace("postgres://", string.Empty);
@@ -34,8 +38,7 @@ else
     var pgPort = pgHostPort.Split(":")[1];
 
     connString = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
-    var logFactory = new LoggerFactory();
-    var logger = logFactory.CreateLogger<Program>();
+    
     logger.LogDebug($"Connection String: {connString}");
 }
 builder.Services.AddDbContext<DataContext>(opt =>
