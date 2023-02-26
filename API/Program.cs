@@ -20,7 +20,7 @@ if (builder.Environment.IsDevelopment())
 else
 {
     // Use connection string provided at runtime by Fly.io.
-    var connUrl = Environment.GetEnvironmentVariable("POSTGRES_CS");
+    connString = Environment.GetEnvironmentVariable("POSTGRES_CS");
 }
 builder.Services.AddDbContext<DataContext>(opt =>
 {
