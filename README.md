@@ -1,7 +1,3 @@
-
-![Logo](https://res.cloudinary.com/dy0yq01fz/image/upload/v1677505546/da-net5/datelogy-logo_sdbpwx.png)
-
-
 # Datelogy
 
 A dating application that allows users to connect with others and find potential matches. The application has features like registration and login using .NET Identity, viewing who likes them, editing their profile, and uploading single/multiple photos. Additionally, the application has a live messaging system with presence using SignalR. It also includes pagination, caching, filtering with age, and toastr notifications.
